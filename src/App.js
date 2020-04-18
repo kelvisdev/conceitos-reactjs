@@ -9,25 +9,17 @@ import "./styles.css";
 function App() {
   const [repositories, setRepositories] = useState([]);
 
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [techs, setTechs] = useState([]);
+  const [likes, setLikes] = useState(0);
+
   useEffect(() => {
     api.get("repositories").then((response) => {
-      console.log(response.data);
 
       setRepositories(response.data);
     });
   }, []);
-
-  async function handleAddRepository() {
-    const response = await api.post("repositories", {
-      title: `Repository ${Date.now()}`,
-      url: "https://github.com/kelvisdev/conceitos-reactjs",
-      techs: ["Node.js", "React.js", "React Native"],
-    });
-
-    const { data } = response;
-
-    setRepositories([...repositories, data]);
-  }
 
   async function handleRemoveRepository(id) {
     try {
@@ -41,16 +33,84 @@ function App() {
     }
   }
 
+  async function handleAddLikeInRepository(id) {
+    const { data } = await api.post(`repositories/${id}/like`);
+
+    const repository = repositories.find((repository) => repository.id === id);
+
+    const repositoryIndex = repositories.indexOf(repository);
+
+    console.log("data ", data);
+
+    const repositoryUpdated = {
+      id: data.id,
+      title: data.title,
+      url: data.url,
+      techs: data.techs,
+      likes: data.likes,
+    };
+
+    repositories[repositoryIndex] = repositoryUpdated;
+
+    console.log("repositories: ", repositories);
+
+    setRepositories([]);
+    setRepositories(repositories);
+  }
+
   async function handleUrlRepository(url) {
-    window.open(
-      `${url}`,
-      '_blank'
-    );
+    window.open(`${url}`, "_blank");
+  }
+
+  async function handleAddRepository(e = null) {
+    if (e) {
+      e.preventDefault();
+    }
+
+    const response = await api.post("repositories", {
+      title,
+      url,
+      techs,
+    });
+
+    const { data } = response;
+
+    setRepositories([data, ...repositories]);
+
+    limpaCampos();
+  }
+
+  function limpaCampos() {
+    setTitle("");
+    setUrl("");
+    setTechs([]);
   }
 
   return (
     <div className="repository-container">
       <section>
+        <form onSubmit={handleAddRepository}>
+          <input
+            placeholder="Título"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+
+          <input
+            placeholder="Url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+
+          <input
+            placeholder="Tecnologias"
+            value={techs}
+            onChange={(e) => setTechs(e.target.value.split(','))}
+          />
+          <button className="btn-add" type="submit" onClick={handleAddRepository}>Adicionar</button>
+        </form>
+      </section>
+      <section className="list-repositories">
         <ul data-testid="repository-list">
           {repositories.map((repository) => (
             <li key={repository.id}>
@@ -60,9 +120,12 @@ function App() {
               ))}
 
               <div>
-                <button className="btn-like">
-                  <FiHeart size={14} color="#ca4949" /> {repository.likes}{" "}
-                  <small>Curtidas</small>
+                <button
+                  className="btn-like"
+                  onClick={() => handleAddLikeInRepository(repository.id)}
+                >
+                  <FiHeart size={14} fill="#ca4949" color="#ca4949" />{" "}
+                  {repository.likes} <small>Curtidas</small>
                 </button>
               </div>
 
@@ -72,20 +135,19 @@ function App() {
                   onClick={() => handleRemoveRepository(repository.id)}
                 >
                   <p className="title-btn">Remover</p> <FiTrash2 size={20} color="#fff" />
-                </button>
+                </button>                
 
                 <button
                   className="btn-url"
                   onClick={() => handleUrlRepository(repository.url)}
                 >
-                  <p className="title-btn">Repositório </p> <FiGithub size={20} color="#fff" />                  
+                  <p className="title-btn">Repositório </p>{" "}
+                  <FiGithub size={20} color="#fff" />
                 </button>
               </div>
             </li>
           ))}
         </ul>
-
-        <button className="btn-add" onClick={handleAddRepository}>Adicionar</button>
       </section>
     </div>
   );
