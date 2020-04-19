@@ -4,9 +4,46 @@
   box-sizing: border-box;
 }
 
-body {
+html {
   font-size: 18px;
   font-family: "Roboto", sans-serif;  
+
+  /* white */
+
+  --color-text: #737380;  
+  --color-titlecard: #7159c1;
+  --color-textbtnlike: #737380;  
+  --color-textbtnurl: #5e4aa2;
+  --color-textbtnremove: #ca4949;
+
+  --bg: #f0f0f5;
+  --bg-cardshover: none;  
+  --bg-cards: #eeeefb;
+  --bg-cardsshadow: 0 0 350px rgba(0, 0, 0, 0.1);
+  --bg-span-techs: rgb(4, 211, 97);
+  --bg-btn-like: transparent;
+  
+  --bg-btnurl: transparent;
+  --bg-btnurlhover: #5e4aa2;
+  --btn-urlborder: 1px solid #5e4aa2;
+  --btn-urlborderhover: #fff;
+  --bg-btnurlicon: #fff; 
+  
+  --bg-btnremove: transparent;
+  --btn-removeborder: 1px solid #ca4949;
+  --bg-btnremovehover: #a83939;
+  --btn-removeborderhover: none;
+  
+  --bg-input: transparent;
+  --bg-inputborder: #7159c1;
+  
+  --bg-btnadd: #7159c1;
+  --bg-btnaddhover: #5c48a0;
+  --btn-addborder: #7159c1;
+}
+
+form {
+  margin-left: 50px;
 }
 
 div li {
@@ -15,7 +52,6 @@ div li {
 }
 
 button {
-  background: #7159c1;
   color: #fff;
   border: 0;
   padding: 10px 15px;
@@ -29,29 +65,22 @@ button {
   text-align: center;
 }
 
-
 .btn-add {
-  border: 2px solid #7159c1;
-  color: #fff;
-  background-color: transparent;
+  background-color: var(--bg-btnadd);
+  border: 2px solid var(--btn-addborder);  
   width: 95px;
   height: 40px;
   display: inline-block;
 }
 
 .btn-add:hover {
-  background: #7159c1;
-  color: #fff;
+  background: var(--bg-btnaddhover);
   font-weight: bold;
 }
 
-div li button {
-  background: #ca4949;
-}
 
 body {
-  background: #000;
-  color: #fff;
+  background: var(--bg);
   margin: 20px;
 }
 
@@ -62,8 +91,8 @@ header {
 
 .list-repositories {
   width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
+  max-width: 700px;  
+  margin: 0px 435px;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
@@ -72,52 +101,79 @@ header {
 .list-repositories ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+  grid-gap: 30px;  
   list-style: none;
 }
 
 .list-repositories ul li {
-  background: rgb(32, 32, 36) none repeat scroll 0% 0%;
+  background: var(--bg-cards);
   border-radius: 5px;
   padding: 24px;
   position: relative;
   display: inline-block;
   font-size: 14px;
   width: 470px;
-  height: 249px;
+  height: 265px;  
+  box-shadow: var(--bg-cardsshadow);
+  text-align: center;
 }
 
 .list-repositories ul li:hover {
-  border: 1px solid rgb(48, 153, 6);
+  border: 1px solid var(--bg-cardshover);
 }
 
 .list-repositories .btn-like {
-  background: transparent;  
+  background: var(--bg-btnlike);  
+  color: var(--color-textbtnlike);  
   margin: 0px;
   padding-left: 2px;
   padding-top: 25px;
   line-height: 14px;
+  display: flex;
+  font-size: 14px;
+}
+
+.list-repositories .btn-like svg {
+  margin-right: 4px;  
+}
+
+
+.list-repositories .btn-like:hover svg {
+  font-size: 17px;
+}
+
+
+.list-repositories .btn-like:hover {
+  font-size: 17px;
 }
 
 .list-repositories .btn-remove {
-  background: transparent;
-  border: 1px solid #ca4949;
+  background: var(--bg-btnremove);
+  border: var(--btn-removeborder);
   border-radius: 5px;
   margin-right: 8px;
   margin-left: 0;
-  width: 189px;
+  width: 120px;
   height: 73px;
-  display: inline-block;
+  display: inline-block;    
+  color: var(--color-textbtnremove);
 }
 
 .list-repositories .btn-url {
-  background: transparent;
-  border: 1px solid #7159c1;
+  background: var(--bg-btnurl);
+  border: var(--btn-urlborder);
   border-radius: 5px;
-  margin-left: 11px;
-  width: 189px;
+  margin-left: 16px;
+  width: 120px;
   height: 73px;
   display: inline-block;
+  color: var(--color-textbtnurl);
+}
+
+.list-repositories .btn-url:hover {
+  border: var(--btn-urlborderhover);  
+  background-color: var(--bg-btnurlhover);
+  color: #fff;
 }
 
 .list-repositories button + button {
@@ -125,34 +181,32 @@ header {
 }
 
 .list-repositories .btn-remove:hover {
-  border: 3px solid #ca4949;  
+  border: var(--btn-removeborderhover);  
+  background-color: var(--bg-btnremovehover);
+  color: #fff;
 }
 
-.list-repositories .btn-url:hover {
-  border: 3px solid #7159c1;  
-}
-
-.list-repositories h3 {
+.list-repositories .h3 {
   margin-bottom: 30px;
-  font-weight: 700;
+  font-weight: 700;  
+  font-size: 24px;
+}
+
+div h3 {
+  color: var(--color-titlecard);
 }
 
 .list-repositories span {
-  background: green;
+  color: #fff;
+  background: var(--bg-span-techs);
+  box-shadow: 0 0 2px;
+  font-weight: bold;
   border-radius: 15px;
-  padding: 5px;
+  padding: 8px;
 }
 
 .list-repositories span + span {
   margin-left: 8px;
-}
-
-.list-repositories .btn-like small {
-  background: transparent;  
-  margin: 0px;
-  padding-left: 2px;
-  padding-top: 25px;
-  line-height: 14px;
 }
 
 .list-repositories .btn-add {
@@ -163,25 +217,92 @@ header {
   margin: 4px;
 }
 
-.repository-container form {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 10px;
+.repository-container  {
+  color: var(--color-text);
 }
 
-.repository-container form input {
-  color: #fff;
+.repository-container form {
+  width: 93%;
+  text-align: center;
+  margin-bottom: 10px;
+  
+}
+
+
+.repository-container form input {  
   margin-top: 8px;
-  padding: 8px;
-  margin: 4px;
+  padding: 10px;  
+  margin: 6px;
   border-radius: 15px;
-  background: transparent;
-  border: 2px solid #a99898;
+  background: var(--bg-input);
+  border: 2px solid var(--bg-inputborder);
   box-shadow: 0 0 0 0;
   outline: 0;
   width: 282px;
+  font-weight: 600;
+}
+
+section form input {
+  color: var(--bg-inputborder);   
+}
+
+input::placeholder {
+  opacity: 0.8;
+  color: var(--bg-inputborder); 
 }
 
 .button:hover {
   filter: brightness(90%);
+}
+
+.likes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 52px;
+  height: 27px;
+  background: rgb(17, 17, 22) none repeat scroll 0% 0%;
+  float: right;
+  border-radius: 100px;
+  position: relative;
+  border: 1px solid #7159c1;
+}
+
+label::after{
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background-color: #7159c1;
+}
+
+input:checked + label::after {
+  background-color: #000;
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 45px;
 }

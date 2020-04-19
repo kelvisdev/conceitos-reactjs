@@ -12,11 +12,9 @@ function App() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [techs, setTechs] = useState([]);
-  const [likes, setLikes] = useState(0);
 
   useEffect(() => {
     api.get("repositories").then((response) => {
-
       setRepositories(response.data);
     });
   }, []);
@@ -40,8 +38,6 @@ function App() {
 
     const repositoryIndex = repositories.indexOf(repository);
 
-    console.log("data ", data);
-
     const repositoryUpdated = {
       id: data.id,
       title: data.title,
@@ -51,8 +47,6 @@ function App() {
     };
 
     repositories[repositoryIndex] = repositoryUpdated;
-
-    console.log("repositories: ", repositories);
 
     setRepositories([]);
     setRepositories(repositories);
@@ -91,58 +85,66 @@ function App() {
       <section>
         <form onSubmit={handleAddRepository}>
           <input
-            placeholder="Título"
+            placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
 
           <input
-            placeholder="Url"
+            placeholder="Repository Link"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
 
           <input
-            placeholder="Tecnologias"
+            placeholder="Technologies"
             value={techs}
-            onChange={(e) => setTechs(e.target.value.split(','))}
+            onChange={(e) => setTechs(e.target.value.split(","))}
           />
-          <button className="btn-add" type="submit" onClick={handleAddRepository}>Adicionar</button>
+          <button
+            className="btn-add"
+            type="submit"
+            onClick={handleAddRepository}
+          >
+            Adicionar
+          </button>
         </form>
       </section>
       <section className="list-repositories">
         <ul data-testid="repository-list">
           {repositories.map((repository) => (
             <li key={repository.id}>
-              <h3>{repository.title}</h3>
+              <h3 className="h3">{repository.title}</h3>
               {repository.techs.map((tech) => (
                 <span key={tech}>{tech}</span>
               ))}
 
-              <div>
+              <div className="likes">
                 <button
                   className="btn-like"
                   onClick={() => handleAddLikeInRepository(repository.id)}
                 >
-                  <FiHeart size={14} fill="#ca4949" color="#ca4949" />{" "}
-                  {repository.likes} <small>Curtidas</small>
+                  <FiHeart fill="#ca4949" color="#ca4949" />{" "}
+                  {repository.likes} likes
                 </button>
               </div>
 
               <div>
                 <button
+                  id="btn-remove"
                   className="btn-remove"
                   onClick={() => handleRemoveRepository(repository.id)}
                 >
-                  <p className="title-btn">Remover</p> <FiTrash2 size={20} color="#fff" />
-                </button>                
+                  <p className="title-btn">Remover</p>{" "}
+                  <FiTrash2 size={20} />
+                </button>
 
                 <button
                   className="btn-url"
                   onClick={() => handleUrlRepository(repository.url)}
                 >
                   <p className="title-btn">Repositório </p>{" "}
-                  <FiGithub size={20} color="#fff" />
+                  <FiGithub size={20} />
                 </button>
               </div>
             </li>
@@ -150,7 +152,7 @@ function App() {
         </ul>
       </section>
     </div>
-  );
+  );  
 }
 
 export default App;
